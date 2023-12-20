@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *left;
+    struct node *right;
+};
+
+typedef struct node tnode;
+typedef tnode *bstree;
+
+bstree head = NULL;
+
+bstree abc(int d) {
+    bstree new_node = (bstree)malloc(sizeof(tnode));
+    new_node->data = d;
+    new_node->left = NULL;
+    new_node->right = NULL;
+
+    bstree current = head;
+    bstree parent = NULL;
+
+    while (current != NULL) {
+        parent = current;
+        if (d < current->data)
+            current = current->left;
+        else if (d > current->data)
+            current = current->right;
+        else
+            return current; // 如果數據已經存在於樹中，這裡的操作可以根據需要進行調整
+    }
+
+    if (parent == NULL) {
+        head = new_node; // 樹為空，新節點為根節點
+    } else if (d < parent->data) {
+        parent->left = new_node;
+    } else {
+        parent->right = new_node;
+    }
+
+    return new_node; // 返回插入的節點
+}
+
+int main() {
+    // 測試插入節點
+    abc(5);
+    abc(3);
+    abc(7);
+
+    // 在這裡你可以進行其他操作，比如進行中序遍歷，印出二叉樹的結構等等
+
+    return 0;
+}
